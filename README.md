@@ -23,3 +23,13 @@ SELECT name AS ViewName, definition
 FROM sys.sql_modules 
 JOIN sys.objects ON sys.sql_modules.object_id = sys.objects.object_id 
 WHERE type = 'V';
+
+
+This query retrieves columns from tables that are used in views:
+
+SELECT 
+    vcu.VIEW_NAME AS ViewName,
+    vcu.TABLE_NAME AS SourceTable,
+    vcu.COLUMN_NAME AS SourceColumn
+FROM INFORMATION_SCHEMA.VIEW_COLUMN_USAGE vcu
+ORDER BY vcu.VIEW_NAME, vcu.TABLE_NAME, vcu.COLUMN_NAME;
