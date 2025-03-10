@@ -1,56 +1,25 @@
-If you want to list only the fields (columns) that are actively used in queries from tables in a database, you may need to check:
+List Columns Used in Views
 
-Database Schema – List all columns in tables.
-Query Logs – Identify queries that reference those columns.
-Indexes or Foreign Keys – Check referenced columns.
-Here’s how to get the relevant information:
+SELECT v.TABLE_NAME AS ViewName, c.COLUMN_NAME 
+FROM INFORMATION_SCHEMA.VIEW_COLUMN_USAGE c
+JOIN INFORMATION_SCHEMA.VIEWS v ON c.VIEW_NAME = v.TABLE_NAME
+ORDER BY v.TABLE_NAME, c.COLUMN_NAME;
 
-1. Get Columns from Tables in a Database
-Use this query in MySQL:
+Find Views and Their Source Tables with Columns
 
-sql
-Copy
-Edit
-SELECT TABLE_NAME, COLUMN_NAME 
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_SCHEMA = 'your_database_name';
-For SQL Server:
+SELECT 
+    v.name AS ViewName, 
+    t.name AS TableName, 
+    c.name AS ColumnName
+FROM sys.views v
+JOIN sys.sql_expression_dependencies d ON d.referencing_id = v.object_id
+JOIN sys.tables t ON d.referenced_id = t.object_id
+JOIN sys.columns c ON c.object_id = t.object_id
+ORDER BY v.name, t.name, c.name;
 
-sql
-Copy
-Edit
-SELECT TABLE_NAME, COLUMN_NAME 
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_CATALOG = 'your_database_name';
-For PostgreSQL:
+Get View Definition (Check SQL Code of Views)
 
-sql
-Copy
-Edit
-SELECT table_name, column_name
-FROM information_schema.columns
-WHERE table_schema = 'public';
-2. Find Columns Used in Queries
-MySQL Query Logs (if enabled):
-
-sql
-Copy
-Edit
-SHOW GLOBAL VARIABLES LIKE 'general_log%';
-If general logging is enabled, check general_log table or file.
-
-SQL Server Query Store:
-
-sql
-Copy
-Edit
-SELECT query_text 
-FROM sys.dm_exec_requests
-CROSS APPLY sys.dm_exec_sql_text(sql_handle);
-PostgreSQL Query Log (if logging enabled):
-
-sql
-Copy
-Edit
-SELECT query FROM pg_stat_statements;
-Would you like a script to automate identifying the actively used columns?
+SELECT name AS ViewName, definition 
+FROM sys.sql_modules 
+JOIN sys.objects ON sys.sql_modules.object_id = sys.objects.object_id 
+WHERE type = 'V';
