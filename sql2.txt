@@ -1,0 +1,5 @@
+To get a list of columns from a table in SQL, you can use different queries depending on the database system you are using.
+
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'your_table_name' AND TABLE_SCHEMA = 'your_database_name';
