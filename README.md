@@ -1,35 +1,9 @@
-List Columns Used in Views
+Given the mandated RTO and other contributing factors, I want to formally notify you of my resignation effective April 17, 2026. 
 
-SELECT v.TABLE_NAME AS ViewName, c.COLUMN_NAME 
-FROM INFORMATION_SCHEMA.VIEW_COLUMN_USAGE c
-JOIN INFORMATION_SCHEMA.VIEWS v ON c.VIEW_NAME = v.TABLE_NAME
-ORDER BY v.TABLE_NAME, c.COLUMN_NAME;
+This has not been an easy decision.  I have truly valued my time and the opportunities at NISA.  I have greatly enjoyed working with you and our incredible team.  
 
-Find Views and Their Source Tables with Columns
+I’m committed to making this transition as smooth as possible.  I have had another job offer which included $13k more in compensation and was 100% remote, but rejected it for other non-financial reasons.  I am pursuing other opportunities, but will be happy to extend the April 17, 2026 upon your request; barring any conflicts that may arise. 
 
-SELECT 
-    v.name AS ViewName, 
-    t.name AS TableName, 
-    c.name AS ColumnName
-FROM sys.views v
-JOIN sys.sql_expression_dependencies d ON d.referencing_id = v.object_id
-JOIN sys.tables t ON d.referenced_id = t.object_id
-JOIN sys.columns c ON c.object_id = t.object_id
-ORDER BY v.name, t.name, c.name;
+I am happy to help wrap up any outstanding projects, document any processes or workflows you would like, and support any onboarding of a replacement. Please let me know how you would like me to help and spend the remainder of my time at NISA.
 
-Get View Definition (Check SQL Code of Views)
-
-SELECT name AS ViewName, definition 
-FROM sys.sql_modules 
-JOIN sys.objects ON sys.sql_modules.object_id = sys.objects.object_id 
-WHERE type = 'V';
-
-
-This query retrieves columns from tables that are used in views:
-
-SELECT 
-    vcu.VIEW_NAME AS ViewName,
-    vcu.TABLE_NAME AS SourceTable,
-    vcu.COLUMN_NAME AS SourceColumn
-FROM INFORMATION_SCHEMA.VIEW_COLUMN_USAGE vcu
-ORDER BY vcu.VIEW_NAME, vcu.TABLE_NAME, vcu.COLUMN_NAME;
+Thank you again for everything. I wish you and the team continued success!
